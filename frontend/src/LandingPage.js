@@ -6,11 +6,17 @@ function LangingPage() {
 
 
     return (
-    <div className="LandingPage">
-        <h1>Welcome</h1>
-        <button onClick={ () => navigate("/login")}>Login</button>
-    </div>
-
+        <div className="bg-lightest min-h-screen flex items-center justify-center">
+        <div className="text-center">
+          <h1 className="text-midnight text-4xl font-bold mb-6">Welcome</h1>
+          <button
+            onClick={() => navigate("/login")}
+            className="bg-blue text-lightest py-2 px-4 rounded-md hover:bg-lightblue transition"
+          >
+            Login
+          </button>
+        </div>
+      </div>
     );
 
 }
