@@ -41,12 +41,17 @@ axios.post('http://httpbin.org/post', fd, {
   }
 
   return (
-    <div className="App">
+    <div className="flex flex-col justify-center items-center">
+      <div className="bg-blue">
+gore
+      </div>
+      <div>
     <input type="file" onChange={ (e) => {setFile(e.target.files[0])} }/>
     <button onClick = {handleUpload}>Upload</button>
 
     {progress.started && <progress max="100" value={progress.pc}></progress>}
     {msg && <span>{msg}</span>}
+    </div>
     </div>
   );
 }

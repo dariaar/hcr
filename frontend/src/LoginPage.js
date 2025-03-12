@@ -20,10 +20,10 @@ function LoginPage() {
 
     return (
 
-        <div className="LoginPage">
+        <div className="flex flex-col items-center justify-center space-y-4 px-4 self-center">
 
-        <input type="text" placeholder="Username" onChange={ (e) => setUsername(e.target.value)}/>
-        <input type="password" placeholder="Password" onChange={ (e) => setPassword(e.target.value)}/>
+        <input type="text" className="border-2 rounded-md px-2 py-2" placeholder="Username" onChange={ (e) => setUsername(e.target.value)}/>
+        <input type="password" className="border-2 rounded-md px-2 py-2" placeholder="Password" onChange={ (e) => setPassword(e.target.value)}/>
 
         <button onClick={handleLogin}>Login</button>
         </div>
