@@ -16,11 +16,17 @@ function LoginPage() {
   };
 
   return (
-    <div className="flex items-center justify-center min-h-screen bg-lightest">
+    <div className="flex flex-row space-x-10 items-center justify-center min-h-screen bg-lightest">
+      <div className="pr-10 flex flex-col justify-center">
+          <h1 className="text-[100px] font-bold font-serif text-black leading-tight">
+            Write.<br /> Scan.<br /> Digitize.
+          </h1>
+        </div>
+
       <div className="bg-white p-8 rounded-2xl shadow-lg w-80 flex flex-col space-y-4">
         <h2 className="text-xl font-semibold text-center text-midnight">Login</h2>
         <input
-          type="text"
+          type="text" 
           className="border-2 border-midnight rounded-md px-3 py-2 focus:outline-none focus:ring-2 focus:ring-lightblue"
           placeholder="Username"
           onChange={(e) => setUsername(e.target.value)}

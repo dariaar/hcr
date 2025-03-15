@@ -38,15 +38,13 @@ function PersonalPage() {
   }
 
   return (
-    <div className="min-h-screen bg-gray-100">
-      {/* Navbar */}
+    <div className="min-h-screen bg-lightest">
+      
       <Navbar />
 
-      {/* Glavni sadržaj */}
       <div className="flex flex-col items-center justify-center mt-10 space-y-6">
         <h1 className="text-2xl font-bold text-midnight">Upload Documents</h1>
 
-        {/* Upload sekcija */}
         <div className="bg-white p-6 rounded-lg shadow-lg w-96 flex flex-col items-center">
           <input 
             type="file" 
@@ -56,13 +54,17 @@ function PersonalPage() {
           />
           <button 
             onClick={handleUpload} 
-            className="mt-4 bg-midnight text-white px-4 py-2 rounded-md hover:bg-blue transition"
+            className="mt-4 bg-midnight text-lightest px-4 py-2 rounded-md hover:bg-blue transition"
           >
             Upload
           </button>
 
           {progress.started && <progress max="100" value={progress.pc} className="w-full mt-3"></progress>}
           {msg && <span className="text-sm mt-2">{msg}</span>}
+        </div>
+
+        <div>
+          My files
         </div>
       </div>
     </div>
