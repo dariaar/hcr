@@ -36,11 +36,12 @@ function ProfilePage() {
         }
       } else {
         setError("User is not logged in.");
+        navigate("/login"); // Redirect to login page if not authenticated
       }
     };
 
     fetchUserData();
-  }, []); // Empty array to run only on mount
+  }, [navigate]); // Empty array to run only on mount, and include navigate to avoid warnings
 
   const handleLogout = () => {
     auth.signOut(); // Sign out the user
@@ -49,29 +50,28 @@ function ProfilePage() {
 
   return (
     <div className="min-h-screen bg-lightest">
-        <Navbar/>
-    <div className="flex flex-col items-center justify-center min-h-screen bg-lightest">
-        
-      <div className="bg-white p-8 rounded-2xl shadow-lg w-80 flex flex-col space-y-4">
-        {error && <p className="text-red-500 text-center">{error}</p>}
-        {userData ? (
-          <>
-            <h2 className="text-xl font-semibold text-center">Profile</h2>
-            <p>Name: {userData.name}</p>
-            <p>Surname: {userData.surname}</p>
-            <p>Email: {userData.email}</p>
-            <button
-              onClick={handleLogout}
-              className="bg-midnight text-lightest py-2 rounded-md hover:bg-blue transition duration-300"
-            >
-              Logout
-            </button>
-          </>
-        ) : (
-          <p className="text-center">Loading user data...</p>
-        )}
+      <Navbar/>
+      <div className="flex flex-col items-center justify-center min-h-screen bg-lightest">
+        <div className="bg-white p-8 rounded-2xl shadow-lg w-80 flex flex-col space-y-4">
+          {error && <p className="text-red-500 text-center">{error}</p>}
+          {userData ? (
+            <>
+              <h2 className="text-xl font-semibold text-center">Profile</h2>
+              <p>Name: {userData.name}</p>
+              <p>Surname: {userData.surname}</p>
+              <p>Email: {userData.email}</p>
+              <button
+                onClick={handleLogout}
+                className="bg-midnight text-lightest py-2 rounded-md hover:bg-blue transition duration-300"
+              >
+                Logout
+              </button>
+            </>
+          ) : (
+            <p className="text-center">Loading user data...</p>
+          )}
+        </div>
       </div>
-    </div>
     </div>
   );
 }
