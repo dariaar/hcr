@@ -26,7 +26,7 @@ function PersonalPage() {
     setProgress({ started: true, pc: 0 });
 
     try {
-      const res = await axios.post(`${apiUrl}/upload`, fd, {
+      const res = await axios.post(`https://hcr-1-eight.vercel.app/upload`, fd, {
         headers: { "Content-Type": "multipart/form-data" },
         onUploadProgress: (progressEvent) => {
           setProgress({ started: true, pc: Math.round((progressEvent.loaded * 100) / progressEvent.total) });
