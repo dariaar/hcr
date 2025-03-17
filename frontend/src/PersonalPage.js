@@ -24,7 +24,7 @@ function PersonalPage() {
     setProgress({ started: true, pc: 0 });
 
     try {
-      const res = await axios.post("http://127.0.0.1:8000/upload", fd, {
+      const res = await axios.post("https://hcr.onrender.com/upload", fd, {
         headers: { "Content-Type": "multipart/form-data" },
         onUploadProgress: (progressEvent) => {
           setProgress({ started: true, pc: Math.round((progressEvent.loaded * 100) / progressEvent.total) });
