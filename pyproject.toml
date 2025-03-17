@@ -22,7 +22,7 @@ name = "hcr"
 version = "0.1.0"
 description = "A simple handwriting recognition app"
 authors = [
-    {name = "dariaar",email = "droso00@fesb.hr"}
+    dariaar droso00@fesb.hr
 ]
 
 [tool.poetry.dependencies]
