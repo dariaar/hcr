@@ -32,7 +32,7 @@ function PersonalPage() {
           setProgress({ started: true, pc: Math.round((progressEvent.loaded * 100) / progressEvent.total) });
         },
       });
-
+      console.log(`${apiUrl}/upload`); 
       setMsg("Upload Successful!");
       console.log("Server response:", res.data);
     } catch (err) {
