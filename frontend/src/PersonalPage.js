@@ -2,6 +2,8 @@ import React, { useState } from "react";
 import axios from "axios";
 import Navbar from "./NavBar";
 
+const apiUrl = process.env.REACT_APP_API_URL_LOCAL || process.env.REACT_APP_API_URL_PROD;
+
 function PersonalPage() {
   const [files, setFiles] = useState(null);
   const [progress, setProgress] = useState({ started: false, pc: 0 });
@@ -24,7 +26,7 @@ function PersonalPage() {
     setProgress({ started: true, pc: 0 });
 
     try {
-      const res = await axios.post("https://hcr-1-eight.vercel.app/upload", fd, {
+      const res = await axios.post(`${apiUrl}/upload`, fd, {
         headers: { "Content-Type": "multipart/form-data" },
         onUploadProgress: (progressEvent) => {
           setProgress({ started: true, pc: Math.round((progressEvent.loaded * 100) / progressEvent.total) });
