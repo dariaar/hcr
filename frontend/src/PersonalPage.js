@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import axios from "axios";
 import Navbar from "./NavBar";
 
-const apiUrl = process.env.REACT_APP_API_URL_LOCAL || process.env.REACT_APP_API_URL_PROD;
+const apiUrl = "https://hcr-qgea.onrender.com"; // Direktno postavi URL
 
 function PersonalPage() {
   const [files, setFiles] = useState(null);
