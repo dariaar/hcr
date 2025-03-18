@@ -19,6 +19,11 @@ app.add_middleware(
 UPLOAD_DIR = "uploads"
 os.makedirs(UPLOAD_DIR, exist_ok=True)
 
+# Dodajemo GET rutu za root
+@app.get("/")
+async def read_root():
+    return {"message": "API is working"}
+
 @app.post("/upload")
 async def upload_files(files: List[UploadFile] = File(...)):
     print("Received files:", [file.filename for file in files])  # Dodajte ovu liniju za debug
