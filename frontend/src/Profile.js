@@ -3,6 +3,7 @@ import { auth, db } from "./firebase"; // Import Firebase auth and Firestore
 import { collection, query, where, getDocs } from "firebase/firestore"; // Firestore functions
 import { useNavigate } from "react-router-dom";
 import Navbar from "./NavBar";
+import Footer from "./Footer";
 
 function ProfilePage() {
   const [userData, setUserData] = useState(null); // State for storing user data
@@ -72,6 +73,7 @@ function ProfilePage() {
           )}
         </div>
       </div>
+      <Footer/>
     </div>
   );
 }

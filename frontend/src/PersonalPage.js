@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import axios from "axios";
 import Navbar from "./NavBar";
+import Footer from "./Footer";
 
 const apiUrl = "https://hcr-qgea.onrender.com"; // Direktno postavi URL
 
@@ -68,6 +69,7 @@ function PersonalPage() {
 
         <div>My files</div>
       </div>
+      <Footer/>
     </div>
   );
 }
