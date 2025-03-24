@@ -22,10 +22,11 @@ UPLOAD_DIR = "uploads"
 os.makedirs(UPLOAD_DIR, exist_ok=True)
 
 # Postavljanje varijable okruženja za Google API ključ
-os.environ["GOOGLE_APPLICATION_CREDENTIALS"] = "/opt/render/project/src/secret/GOOGLE_APPLICATION_CREDENTIALS"
+os.environ["GOOGLE_APPLICATION_CREDENTIALS"] = r"C:\Users\User\Desktop\API KEY\hrc-dipl-651f971b38e6.json"
 
 # Inicijalizacija Vision API klijenta
 client = vision.ImageAnnotatorClient()
+
 
 # Dodajemo GET rutu za root
 @app.get("/")
