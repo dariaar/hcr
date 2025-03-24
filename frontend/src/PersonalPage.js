@@ -50,12 +50,11 @@ function PersonalPage() {
     }
 
     try {
-      // Umesto objekta { filenames: [...] }, šaljemo samo listu imena fajlova
       const filenames = Array.from(files).map((file) => file.name);
       const res = await axios.post(`${apiUrl}/process-ocr`, filenames); // Send only the array of filenames
 
       console.log("OCR Response:", res.data);
-      setOcrResult(res.data.message); // Use message for display
+      setOcrResult(res.data.extracted_text.join("\n")); // Join the extracted text and display it
       setMsg("OCR Processing Complete!");
     } catch (err) {
       console.error("OCR Error:", err);
@@ -100,7 +99,7 @@ function PersonalPage() {
         {ocrResult && (
           <div className="mt-6 p-4 bg-gray-100 rounded-md w-96 text-midnight">
             <h2 className="font-bold">OCR Output:</h2>
-            <p>{ocrResult}</p>
+            <pre>{ocrResult}</pre> {/* Display OCR result here */}
           </div>
         )}
       </div>

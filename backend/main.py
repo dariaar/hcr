@@ -1,9 +1,12 @@
+import os
+import shutil
 from fastapi import FastAPI, File, UploadFile
 from fastapi.middleware.cors import CORSMiddleware
+from google.cloud import vision
+from google.cloud.vision import types
 from typing import List
-import shutil
-import os
 
+# Inicijalizacija FastAPI aplikacije
 app = FastAPI()
 
 # Omogućavamo CORS za React frontend
@@ -18,6 +21,9 @@ app.add_middleware(
 # Folder gde će se čuvati uploadovani fajlovi
 UPLOAD_DIR = "uploads"
 os.makedirs(UPLOAD_DIR, exist_ok=True)
+
+# Inicijalizacija Vision API klijenta
+client = vision.ImageAnnotatorClient()
 
 # Dodajemo GET rutu za root
 @app.get("/")
@@ -37,10 +43,32 @@ async def upload_files(files: List[UploadFile] = File(...)):
 
     return {"message": "Files uploaded successfully", "files": saved_files}
 
-# Ruta za OCR obradu
+# Ruta za OCR obradu pomoću Google Vision API
 @app.post("/process-ocr")
-async def process_ocr(filenames: List[str]):  # Ovdje sada očekujemo listu stringova
+async def process_ocr(filenames: List[str]):
     print(f"Processing OCR for files: {filenames}")
-    # Implementacija za OCR obradu (pozivanje Google Vision API-a ili slično)
-    # Simuliramo da se OCR izvršio na datotekama
-    return {"message": "OCR processing completed", "files": filenames}
+
+    extracted_text = []
+
+    # Obrada svake slike i ekstrakcija teksta pomoću Google Vision API
+    for filename in filenames:
+        file_path = os.path.join(UPLOAD_DIR, filename)
+        with open(file_path, "rb") as image_file:
+            content = image_file.read()
+        
+        # Kreiranje slike za OCR sa sadržajem iz fajla
+        image = types.Image(content=content)
+        
+        # Pozivanje Google Vision API za prepoznavanje teksta
+        response = client.text_detection(image=image)
+        texts = response.text_annotations
+        
+        # Ako je OCR uspešan, ekstraktuj tekst
+        if texts:
+            extracted_text.append(f"Text from {filename}:")
+            extracted_text.append(texts[0].description)
+        else:
+            extracted_text.append(f"No text found in {filename}.")
+    
+    # Vraćanje rezultata OCR obrade
+    return {"message": "OCR processing completed", "files": filenames, "extracted_text": extracted_text}
