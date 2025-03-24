@@ -2,6 +2,7 @@ import React from 'react';
 import Navbar from './NavBar';
 import Footer from './Footer';
 
+
 const AboutUs = () => {
   return (
     <div className="min-h-screen bg-lightest">

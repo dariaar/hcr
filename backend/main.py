@@ -24,9 +24,10 @@ os.makedirs(UPLOAD_DIR, exist_ok=True)
 async def read_root():
     return {"message": "API is working"}
 
+# Ruta za upload fajlova
 @app.post("/upload")
 async def upload_files(files: List[UploadFile] = File(...)):
-    print("Received files:", [file.filename for file in files])  # Dodajte ovu liniju za debug
+    print("Received files:", [file.filename for file in files])  # Debugging
     saved_files = []
     for file in files:
         file_path = os.path.join(UPLOAD_DIR, file.filename)
@@ -35,3 +36,11 @@ async def upload_files(files: List[UploadFile] = File(...)):
         saved_files.append(file_path)
 
     return {"message": "Files uploaded successfully", "files": saved_files}
+
+# Ruta za OCR obradu
+@app.post("/process-ocr")
+async def process_ocr(filenames: List[str]):  # Ovdje sada očekujemo listu stringova
+    print(f"Processing OCR for files: {filenames}")
+    # Implementacija za OCR obradu (pozivanje Google Vision API-a ili slično)
+    # Simuliramo da se OCR izvršio na datotekama
+    return {"message": "OCR processing completed", "files": filenames}

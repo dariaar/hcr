@@ -3,12 +3,13 @@ import axios from "axios";
 import Navbar from "./NavBar";
 import Footer from "./Footer";
 
-const apiUrl = "https://hcr-qgea.onrender.com"; // Direktno postavi URL
+const apiUrl = "https://hcr-qgea.onrender.com"; // Backend URL
 
 function PersonalPage() {
   const [files, setFiles] = useState(null);
   const [progress, setProgress] = useState({ started: false, pc: 0 });
   const [msg, setMsg] = useState(null);
+  const [ocrResult, setOcrResult] = useState("");
 
   async function handleUpload() {
     if (!files) {
@@ -18,9 +19,7 @@ function PersonalPage() {
 
     const fd = new FormData();
     for (let i = 0; i < files.length; i++) {
-      fd.append("files", files[i]); // Mora se zvati "files" da se poklopi sa FastAPI
-
-      console.log(`Uploading: ${files[i].name}`); // Debugging
+      fd.append("files", files[i]);
     }
 
     setMsg("Uploading...");
@@ -30,15 +29,37 @@ function PersonalPage() {
       const res = await axios.post(`${apiUrl}/upload`, fd, {
         headers: { "Content-Type": "multipart/form-data" },
         onUploadProgress: (progressEvent) => {
-          setProgress({ started: true, pc: Math.round((progressEvent.loaded * 100) / progressEvent.total) });
+          setProgress({
+            started: true,
+            pc: Math.round((progressEvent.loaded * 100) / progressEvent.total),
+          });
         },
       });
-      console.log(`${apiUrl}/upload`); 
       setMsg("Upload Successful!");
       console.log("Server response:", res.data);
     } catch (err) {
       setMsg("Upload failed");
       console.error("Error:", err);
+    }
+  }
+
+  async function handleOCR() {
+    if (!files) {
+      setMsg("No files to process");
+      return;
+    }
+
+    try {
+      // Umesto objekta { filenames: [...] }, šaljemo samo listu imena fajlova
+      const filenames = Array.from(files).map((file) => file.name);
+      const res = await axios.post(`${apiUrl}/process-ocr`, filenames); // Send only the array of filenames
+
+      console.log("OCR Response:", res.data);
+      setOcrResult(res.data.message); // Use message for display
+      setMsg("OCR Processing Complete!");
+    } catch (err) {
+      console.error("OCR Error:", err);
+      setMsg("OCR Processing Failed");
     }
   }
 
@@ -63,13 +84,28 @@ function PersonalPage() {
             Upload
           </button>
 
-          {progress.started && <progress max="100" value={progress.pc} className="w-full mt-3"></progress>}
+          <button
+            onClick={handleOCR}
+            className="mt-4 bg-midnight text-lightest px-4 py-2 rounded-md hover:bg-green-700 transition"
+          >
+            Process OCR
+          </button>
+
+          {progress.started && (
+            <progress max="100" value={progress.pc} className="w-full mt-3"></progress>
+          )}
           {msg && <span className="text-sm mt-2">{msg}</span>}
         </div>
 
-        <div>My files</div>
+        {ocrResult && (
+          <div className="mt-6 p-4 bg-gray-100 rounded-md w-96 text-midnight">
+            <h2 className="font-bold">OCR Output:</h2>
+            <p>{ocrResult}</p>
+          </div>
+        )}
       </div>
-      <Footer/>
+
+      <Footer />
     </div>
   );
 }
