@@ -3,7 +3,6 @@ import shutil
 from fastapi import FastAPI, File, UploadFile, HTTPException
 from fastapi.middleware.cors import CORSMiddleware
 from google.cloud import vision
-
 from typing import List
 
 # Inicijalizacija FastAPI aplikacije
@@ -21,6 +20,9 @@ app.add_middleware(
 # Folder gde će se čuvati uploadovani fajlovi
 UPLOAD_DIR = "uploads"
 os.makedirs(UPLOAD_DIR, exist_ok=True)
+
+# Postavljanje varijable okruženja za Google API ključ
+os.environ["GOOGLE_APPLICATION_CREDENTIALS"] = "/opt/render/project/src/secret/GOOGLE_APPLICATION_CREDENTIALS"
 
 # Inicijalizacija Vision API klijenta
 client = vision.ImageAnnotatorClient()
@@ -43,7 +45,6 @@ async def upload_files(files: List[UploadFile] = File(...)):
 
     return {"message": "Files uploaded successfully", "files": saved_files}
 
-# Ruta za OCR obradu pomoću Google Vision API
 # Ruta za OCR obradu pomoću Google Vision API
 @app.post("/process-ocr")
 async def process_ocr(filenames: List[str]):
