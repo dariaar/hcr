@@ -3,7 +3,12 @@ import axios from "axios";
 import Navbar from "./NavBar";
 import Footer from "./Footer";
 
-const apiUrl = "https://hcr-qgea.onrender.com"; // Backend URL
+const apiUrl =
+  process.env.NODE_ENV === "development"
+    ? process.env.REACT_APP_API_URL_LOCAL
+    : process.env.REACT_APP_API_URL_PROD;
+
+console.log("API URL:", apiUrl); // Debug info
 
 function PersonalPage() {
   const [files, setFiles] = useState(null);
@@ -49,12 +54,15 @@ function PersonalPage() {
       return;
     }
 
+    const filenames = Array.from(files).map((file) => file.name);
+
     try {
-      const filenames = Array.from(files).map((file) => file.name);
-      const res = await axios.post(`${apiUrl}/process-ocr`, filenames); // Send only the array of filenames
+      const res = await axios.post(`${apiUrl}/process-ocr`, {
+        filenames: filenames, // šalje kao JSON: { filenames: [...] }
+      });
 
       console.log("OCR Response:", res.data);
-      setOcrResult(res.data.extracted_text.join("\n")); // Join the extracted text and display it
+      setOcrResult(res.data.extracted_text.map((item) => item.text).join("\n"));
       setMsg("OCR Processing Complete!");
     } catch (err) {
       console.error("OCR Error:", err);
@@ -63,10 +71,11 @@ function PersonalPage() {
   }
 
   return (
-    <div className="min-h-screen bg-lightest">
+    <div className="flex flex-col min-h-screen bg-lightest">
+
       <Navbar />
 
-      <div className="flex flex-col items-center justify-center mt-10 space-y-6">
+      <div className="flex flex-col items-center justify-center mt-10 space-y-6 flex-grow">
         <h1 className="text-2xl font-bold text-midnight">Upload Documents</h1>
 
         <div className="bg-white p-6 rounded-lg shadow-lg w-96 flex flex-col items-center">
@@ -97,9 +106,11 @@ function PersonalPage() {
         </div>
 
         {ocrResult && (
-          <div className="mt-6 p-4 bg-gray-100 rounded-md w-96 text-midnight">
+          <div className="mt-6 mb-10 p-4 bg-lightblue rounded-md w-96 text-midnight">
             <h2 className="font-bold">OCR Output:</h2>
-            <pre>{ocrResult}</pre> {/* Display OCR result here */}
+            <div className="bg-lightest p-4 rounded-md">
+              <pre>{ocrResult}</pre>
+            </div>
           </div>
         )}
       </div>

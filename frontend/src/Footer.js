@@ -16,7 +16,7 @@ function Footer() {
     }, []);
 
   return (
-    <footer className="bg-midnight text-lightest py-4 mt-10 absolute bottom-0 w-full">
+    <footer className="bg-midnight text-lightest py-4 mt-10 w-full">
       <div className="container mx-auto text-center">
         <div className="flex flex-row space-x-8 justify-between">
             <h1 className="font-serif pl-3">DigiWrite.</h1>
