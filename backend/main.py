@@ -5,6 +5,7 @@ from fastapi.middleware.cors import CORSMiddleware
 from google.cloud import vision
 from typing import List
 from pydantic import BaseModel  # <--- Dodano
+from google.oauth2 import service_account
 
 app = FastAPI()
 
@@ -21,8 +22,22 @@ UPLOAD_DIR = "uploads"
 os.makedirs(UPLOAD_DIR, exist_ok=True)
 
 # Putanja do Google Credentials fajla (lokalna putanja)
-os.environ["GOOGLE_APPLICATION_CREDENTIALS"] = r"C:\Users\User\Desktop\API KEY\hrc-dipl-856966e257b7.json"
-client = vision.ImageAnnotatorClient()
+LOCAL_CREDENTIALS_PATH = r"C:\Users\User\Desktop\API KEY\hrc-dipl-856966e257b7.json"
+RENDER_CREDENTIALS_PATH = "/etc/secrets/GOOGLE_APPLICATION_CREDENTIALS"
+
+# Odaberi putanju
+if os.path.exists(RENDER_CREDENTIALS_PATH):
+    credentials_path = RENDER_CREDENTIALS_PATH
+    print("Using Render credentials path.")
+elif os.path.exists(LOCAL_CREDENTIALS_PATH):
+    credentials_path = LOCAL_CREDENTIALS_PATH
+    print("Using local credentials path.")
+else:
+    raise FileNotFoundError("No valid Google credentials file found.")
+
+# Učitaj kredencijale i napravi Vision klijenta
+credentials = service_account.Credentials.from_service_account_file(credentials_path)
+client = vision.ImageAnnotatorClient(credentials=credentials)
 
 @app.get("/")
 async def read_root():
