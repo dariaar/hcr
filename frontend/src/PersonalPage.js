@@ -70,6 +70,17 @@ function PersonalPage() {
     }
   }
 
+  function handleDownload() {
+    const element = document.createElement("a");
+    const file = new Blob([ocrResult], { type: "text/plain" });
+    element.href = URL.createObjectURL(file);
+    element.download = "ocr_result.txt";
+    document.body.appendChild(element);
+    element.click();
+    document.body.removeChild(element);
+  }
+  
+
   return (
     <div className="flex flex-col min-h-screen bg-lightest">
 
@@ -106,13 +117,20 @@ function PersonalPage() {
         </div>
 
         {ocrResult && (
-          <div className="mt-6 mb-10 p-4 bg-lightblue rounded-md w-96 text-midnight">
-            <h2 className="font-bold">OCR Output:</h2>
-            <div className="bg-lightest p-4 rounded-md">
-              <pre>{ocrResult}</pre>
-            </div>
-          </div>
-        )}
+  <div className="mt-6 mb-10 p-4 bg-lightblue rounded-md w-96 text-midnight">
+    <h2 className="font-bold">OCR Output:</h2>
+    <div className="bg-lightest p-4 rounded-md mb-4">
+      <pre>{ocrResult}</pre>
+    </div>
+    <button
+      onClick={handleDownload}
+      className="bg-midnight text-lightest px-4 py-2 rounded-md hover:bg-blue transition"
+    >
+      Download Text
+    </button>
+  </div>
+)}
+
       </div>
 
       <Footer />
