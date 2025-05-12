@@ -117,10 +117,10 @@ function PersonalPage() {
         </div>
 
         {ocrResult && (
-  <div className="mt-6 mb-10 p-4 bg-lightblue rounded-md w-96 text-midnight">
-    <h2 className="font-bold">OCR Output:</h2>
-    <div className="bg-lightest p-4 rounded-md mb-4">
-      <pre>{ocrResult}</pre>
+  <div className="mt-6 mb-10 p-4 bg-lightblue rounded-md w-full max-w-4xl text-midnight">
+        <h2 className="font-bold">OCR Output:</h2>
+    <div className="bg-lightest p-4 rounded-md mb-4 max-h-64 overflow-y-auto whitespace-pre-wrap">
+    <pre>{ocrResult}</pre>
     </div>
     <button
       onClick={handleDownload}

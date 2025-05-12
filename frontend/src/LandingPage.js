@@ -9,28 +9,27 @@ function LandingPage() {
     return (
         <div className="min-h-screen bg-lightest">
             <Navbar />
-            <div className="flex flex-row justify-center items-center min-h-[80vh] px-10">
+            <div className="flex flex-col lg:flex-row justify-center items-center min-h-[80vh] px-4 lg:px-10 py-10 gap-10">
                 
-            <div className="w-1/2 text-center pl-20">
-             <h1 className="text-4xl font-bold text-midnight mb-4">
-                 Welcome to DigiWrite.
-             </h1>
-             <p className="text-lg text-midnight">
-             Tired of losing important notes or struggling to organize handwritten documents? With DigiWrite.,
-              you can effortlessly scan, digitize, and store your handwritten text in seconds. 
-             Say goodbye to clutter and hello to a smarter, more efficient way of managing your notes.
-             </p>
-             <button 
-             onClick={() => navigate("/login")} 
-             className="bg-midnight text-lightest px-6 py-3 mt-3 rounded-lg text-lg font-semibold shadow-md hover:bg-lightblue transition duration-300"
-            >
-                Try Now
-             </button>
-            </div>
+                <div className="w-full lg:w-1/2 text-center lg:text-left">
+                    <h1 className="text-3xl sm:text-4xl font-bold text-midnight mb-4">
+                        Welcome to DigiWrite.
+                    </h1>
+                    <p className="text-base sm:text-lg text-midnight mb-4">
+                        Tired of losing important notes or struggling to organize handwritten documents?
+                        With DigiWrite, you can effortlessly scan, digitize, and store your handwritten text in seconds.
+                        Say goodbye to clutter and hello to a smarter, more efficient way of managing your notes.
+                    </p>
+                    <button 
+                        onClick={() => navigate("/login")} 
+                        className="bg-midnight text-lightest px-6 py-3 mt-2 rounded-lg text-base font-semibold shadow-md hover:bg-lightblue transition duration-300"
+                    >
+                        Try Now
+                    </button>
+                </div>
 
-                
-                <div className="w-1/2 flex justify-center">
-                    <img src={image2} alt="Handwriting recognition" className="max-w-lg rounded-lg shadow-lg" />
+                <div className="w-full lg:w-1/2 flex justify-center">
+                    <img src={image2} alt="Handwriting recognition" className="w-full max-w-md rounded-lg shadow-lg" />
                 </div>
             </div>
         </div>

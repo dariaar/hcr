@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { auth } from "./firebase"; // Import Firebase auth instance
+import { auth } from "./firebase";
 import { signInWithEmailAndPassword } from "firebase/auth";
 
 function LoginPage() {
@@ -28,13 +28,15 @@ function LoginPage() {
   };
 
   return (
-    <div className="flex flex-row space-x-10 items-center justify-center min-h-screen bg-lightest">
-      <div className="pr-10 flex flex-col justify-center">
-        <h1 className="text-[100px] font-bold font-serif text-midnight leading-tight">
-          Write.<br /> Scan.<br /> Digitize.
+    <div className="flex flex-col lg:flex-row items-center justify-center min-h-screen bg-lightest px-4 py-10 gap-10">
+      
+      <div className="text-center lg:text-right lg:pr-10">
+        <h1 className="text-4xl sm:text-6xl lg:text-[100px] font-bold font-serif text-midnight leading-tight">
+          Write.<br />Scan.<br />Digitize.
         </h1>
       </div>
-      <div className="bg-white p-8 rounded-2xl shadow-lg w-80 flex flex-col space-y-4">
+
+      <div className="bg-white p-6 sm:p-8 rounded-2xl shadow-lg w-full max-w-sm flex flex-col space-y-4">
         <h2 className="text-xl font-semibold text-center text-midnight">Login</h2>
         {error && <p className="text-red-500 text-center">{error}</p>}
         <input
