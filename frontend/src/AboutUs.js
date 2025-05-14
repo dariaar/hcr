@@ -16,7 +16,7 @@ const AboutUs = () => {
             </p>
           </header>
 
-          <section className="bg-white p-6 rounded-lg shadow-md transition hover:shadow-lg">
+          <section className="bg-gradient-to-b from-lightest to-lightblue p-6 rounded-lg shadow-md transition hover:shadow-lg">
             <h2 className="text-2xl font-semibold text-midnight text-center mb-2">Our Vision</h2>
             <p className="text-gray-700 text-center">
               We believe that technology can greatly simplify our daily tasks, especially when it comes to recognizing handwritten documents.
@@ -24,7 +24,7 @@ const AboutUs = () => {
             </p>
           </section>
 
-          <section className="bg-white p-6 rounded-lg shadow-md transition hover:shadow-lg">
+          <section className="bg-gradient-to-b from-lightest to-lightblue p-6 rounded-lg shadow-md transition hover:shadow-lg">
             <h2 className="text-2xl font-semibold text-midnight text-center mb-2">Our Team</h2>
             <p className="text-gray-700 text-center">
               Our team consists of experienced engineers and AI experts who are dedicated to developing a product that meets the needs of our users.

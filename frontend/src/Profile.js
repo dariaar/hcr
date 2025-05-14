@@ -53,7 +53,7 @@ function ProfilePage() {
     <div className="min-h-screen bg-lightest">
       <Navbar/>
       <div className="flex flex-col items-center justify-center min-h-screen bg-lightest">
-        <div className="bg-white p-8 rounded-2xl shadow-lg w-80 flex flex-col space-y-4">
+        <div className="bg-gradient-to-b from-lightblue to-lightest p-8 rounded-2xl shadow-lg w-80 flex flex-col space-y-4">
           {error && <p className="text-red-500 text-center">{error}</p>}
           {userData ? (
             <>

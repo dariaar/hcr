@@ -2,6 +2,8 @@ import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { auth } from "./firebase";
 import { signInWithEmailAndPassword } from "firebase/auth";
+import Navbar from "./NavBar";
+import Footer from "./Footer";
 
 function LoginPage() {
   const navigate = useNavigate();
@@ -28,6 +30,8 @@ function LoginPage() {
   };
 
   return (
+    <div className="min-h-screen bg-lightest">
+    <Navbar />
     <div className="flex flex-col lg:flex-row items-center justify-center min-h-screen bg-lightest px-4 py-10 gap-10">
       
       <div className="text-center lg:text-right lg:pr-10">
@@ -62,6 +66,8 @@ function LoginPage() {
         </button>
       </div>
     </div>
+    <Footer/>
+        </div>
   );
 }
 

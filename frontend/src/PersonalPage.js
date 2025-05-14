@@ -89,10 +89,10 @@ function PersonalPage() {
       <div className="flex flex-col items-center justify-center mt-10 space-y-6 flex-grow">
         <h1 className="text-2xl font-bold text-midnight">Upload Documents</h1>
 
-        <div className="bg-white p-6 rounded-lg shadow-lg w-96 flex flex-col items-center">
+        <div className="bg-gradient-to-b from-lightest to-lightblue  p-6 rounded-lg shadow-lg w-96 flex flex-col items-center">
           <input
             type="file"
-            className="border p-2 rounded-md w-full"
+            className="border bg-lightest p-2 rounded-md w-full"
             multiple
             onChange={(e) => setFiles(e.target.files)}
           />
@@ -105,7 +105,7 @@ function PersonalPage() {
 
           <button
             onClick={handleOCR}
-            className="mt-4 bg-midnight text-lightest px-4 py-2 rounded-md hover:bg-green-700 transition"
+            className="mt-4 bg-midnight text-lightest px-4 py-2 rounded-md hover:bg-blue transition"
           >
             Process OCR
           </button>
