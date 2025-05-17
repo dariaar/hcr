@@ -18,9 +18,9 @@ function Footer() {
   return (
     <footer className="bg-midnight text-lightest py-4 mt-10 w-full">
       <div className="container mx-auto text-center">
-        <div className="flex flex-row space-x-8 justify-between">
+      <div className="flex flex-col md:flex-row md:space-x-8 justify-between items-center text-center  space-y-6 md:space-y-0">
             <h1 className="font-serif pl-3">DigiWrite.</h1>
-            <ul className="flex flex-col ml-8">
+            <ul className="flex flex-col pr-3 md:pl-7">
             <li>
                         <Link 
                             to={user ? "/personal-page" : "/login"} 
