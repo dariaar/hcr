@@ -2,6 +2,10 @@ import React, { useState } from "react";
 import axios from "axios";
 import Navbar from "./NavBar";
 import Footer from "./Footer";
+import { auth, db } from "./firebase"; // putanja ovisi o tvojoj strukturi
+import { collection, addDoc, serverTimestamp } from "firebase/firestore";
+
+
 
 const apiUrl =
   process.env.NODE_ENV === "development"
@@ -64,11 +68,42 @@ function PersonalPage() {
       console.log("OCR Response:", res.data);
       setOcrResult(res.data.extracted_text.map((item) => item.text).join("\n"));
       setMsg("OCR Processing Complete!");
+      await saveToFirebase(res.data.extracted_text.map((item) => item.text).join("\n"));
+
     } catch (err) {
       console.error("OCR Error:", err);
       setMsg("OCR Processing Failed");
     }
   }
+
+  async function saveToFirebase(text) {
+    const user = auth.currentUser;
+  
+    if (!user) {
+      console.error("No user is signed in.");
+      setMsg("User not signed in. Cannot save data.");
+      return;
+    }
+  
+    try {
+      const ocrTextsCollection = collection(db, "users", user.uid, "ocrTexts");
+  
+      await addDoc(ocrTextsCollection, {
+        ocrText: text,
+        email: user.email,
+        timestamp: serverTimestamp(),
+      });
+  
+      console.log("OCR text saved to podkolekciju ocrTexts.");
+      setMsg("OCR text saved to your account!");
+    } catch (error) {
+      console.error("Error saving to Firebase:", error);
+      setMsg("Failed to save OCR text.");
+    }
+  }
+  
+  
+  
 
   function handleDownload() {
     const element = document.createElement("a");

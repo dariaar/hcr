@@ -6,6 +6,7 @@ import LoginPage from "./LoginPage";
 import PersonalPage from "./PersonalPage";
 import AboutUs from "./AboutUs";
 import ProfilePage from "./Profile";
+import EditOcrText from "./EditOcrText";
 
 function App() {
 
@@ -17,6 +18,7 @@ function App() {
         <Route path="/personal-page" element={<PersonalPage/>}/>
         <Route path="/about-us" element={<AboutUs/>}/>
         <Route path="/profile" element={<ProfilePage/>}/>
+        <Route path="/edit/:textId" element={<EditOcrText />} />
         <Route path="*" element={<Navigate to="/" />} />
       </Routes>
     </Router>
