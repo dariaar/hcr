@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
-import { auth, db } from "./firebase"; // Firebase auth i Firestore
-import { doc, getDoc, collection, getDocs } from "firebase/firestore";
+import { auth, db } from "./firebase";
+import { doc, getDoc, collection, getDocs, deleteDoc } from "firebase/firestore";
 import { useNavigate } from "react-router-dom";
 import Navbar from "./NavBar";
 import Footer from "./Footer";
@@ -12,12 +12,10 @@ function ProfilePage() {
   const navigate = useNavigate();
 
   useEffect(() => {
-    // Listen for authentication state changes
     const unsubscribe = auth.onAuthStateChanged(async (user) => {
       if (user) {
         try {
-          // Dohvati korisničke podatke koristeći UID
-          const userRef = doc(db, "users", user.uid); // Koristi UID za dohvat dokumenta korisnika
+          const userRef = doc(db, "users", user.uid);
           const userDoc = await getDoc(userRef);
 
           if (userDoc.exists()) {
@@ -26,7 +24,6 @@ function ProfilePage() {
             setError("No user data found");
           }
 
-          // Dohvati OCR tekstove iz podkolekcije (preko UID-a korisnika)
           const ocrTextsCol = collection(db, "users", user.uid, "ocrTexts");
           const ocrTextsSnapshot = await getDocs(ocrTextsCol);
 
@@ -35,23 +32,22 @@ function ProfilePage() {
             ...doc.data(),
           }));
 
-          setOcrTexts(texts); // Spremi OCR tekstove u stanje
+          setOcrTexts(texts);
         } catch (err) {
           setError("Error fetching user data: " + err.message);
         }
       } else {
         setError("User is not logged in.");
-        navigate("/login"); // Ako nije prijavljen, preusmjeri na login
+        navigate("/login");
       }
     });
 
-    // Clean up the subscription when the component unmounts
     return () => unsubscribe();
   }, [navigate]);
 
   const handleLogout = () => {
     auth.signOut();
-    navigate("/login"); // Preusmjeravanje na login stranicu nakon odjave
+    navigate("/login");
   };
 
   const handleDownload = (textContent, id) => {
@@ -62,6 +58,22 @@ function ProfilePage() {
     document.body.appendChild(element);
     element.click();
     document.body.removeChild(element);
+  };
+
+  const handleDelete = async (id) => {
+    const user = auth.currentUser;
+    if (!user) return;
+
+    try {
+      const docRef = doc(db, "users", user.uid, "ocrTexts", id);
+      await deleteDoc(docRef);
+
+      // Makni obrisani tekst iz lokalnog state-a
+      setOcrTexts((prev) => prev.filter((text) => text.id !== id));
+    } catch (err) {
+      console.error("Error deleting document:", err);
+      alert("Failed to delete text.");
+    }
   };
 
   return (
@@ -93,29 +105,33 @@ function ProfilePage() {
             {ocrTexts.length === 0 ? (
               <p>No saved texts found.</p>
             ) : (
-              <div className="grid grid-cols-2 gap-4">
+              <div className="grid grid-cols-1 gap-4">
                 {ocrTexts.map((text) => (
                   <div
                     key={text.id}
-                    className="bg-lightest p-4 rounded-md shadow-md flex justify-between items-center"
+                    className="bg-lightest p-4 rounded-md shadow-md"
                   >
-                    <span className="text-sm">
-                      {text.ocrText.slice(0, 50)}...
-                    </span> {/* Prikazivanje prvih 50 znakova OCR teksta */}
-                    <div className="flex flex-col space-y-2 items-end">
+                    <p className="text-sm mb-2">{text.ocrText.slice(0, 50)}...</p>
+                    <div className="flex justify-between">
                       <a
-                          href={`/edit/${text.id}`}
-                          className="text-midnight hover:underline"
-                        >
-                          Edit
-                        </a>
-                        <button
-                          onClick={() => handleDownload(text.ocrText, text.id)}
-                          className="text-midnight hover:underline"
-                        >
-                          Download
-                        </button>
-                      </div>
+                        href={`/edit/${text.id}`}
+                        className="text-midnight hover:underline text-sm"
+                      >
+                        Edit
+                      </a>
+                      <button
+                        onClick={() => handleDownload(text.ocrText, text.id)}
+                        className="text-midnight hover:underline text-sm"
+                      >
+                        Download
+                      </button>
+                      <button
+                        onClick={() => handleDelete(text.id)}
+                        className="text-red-600 hover:underline text-sm"
+                      >
+                        Delete
+                      </button>
+                    </div>
                   </div>
                 ))}
               </div>
